@@ -23,7 +23,7 @@ async def chat(request: ChatRequest):
     return success(result)
 
 @router.get("/health")
-@log_exceptions  # 使用刚刚实现的异常日志装饰器
+@log_exceptions  
 async def health_check():
     """应用健康检查接口"""
     return {

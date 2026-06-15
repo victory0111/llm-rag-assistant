@@ -7,6 +7,8 @@ from app.core.exception_handler import (
 from app.exceptions.business_exception import (
     BusinessException
 )
+from app.api.user import router as user_router
+
 
 app = FastAPI(
     title=settings.app_name,
@@ -18,3 +20,4 @@ app.add_exception_handler(
     business_exception_handler
 )
 app.include_router(chat_router)
+app.include_router(user_router)

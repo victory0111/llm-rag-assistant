@@ -34,5 +34,16 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
 
+    @property
+    def mysql_url(self):
+
+        return (
+            f"mysql+pymysql://"
+            f"{self.mysql_user}:"
+            f"{self.mysql_password}@"
+            f"{self.mysql_host}:"
+            f"{self.mysql_port}/"
+            f"{self.mysql_db}"
+        )
 
 settings = Settings()
