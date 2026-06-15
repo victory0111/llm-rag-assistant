@@ -6,12 +6,17 @@ from app.utils.decorators import (
     time_cost
 )
 from app.config.settings import settings
+from app.schemas.chat_schema import ChatResponse
+from app.exceptions.business_exception import (
+    BusinessException
+)
 
 class ChatService:
 
     @log_request
     @time_cost
     async def chat(self, question: str):
+
 
         logger.info(
             f"用户问题: {question}"
@@ -39,12 +44,11 @@ class ChatService:
             "LLM生成完成"
         )
 
-        return {
-            "question": question,
-            "model": settings.model_name,
-            "temperature": settings.temperature,
-            "answer": "模拟回答"
-        }
+        return ChatResponse(
+            question=question,
+            answer=f"模拟回答：{question}",
+            model=settings.model_name
+        )
     
 
 chat_service = ChatService()

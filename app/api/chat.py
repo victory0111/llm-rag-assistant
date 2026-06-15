@@ -4,6 +4,9 @@ from app.service.chat_service import (
 )
 from app.utils.decorators import log_exceptions
 from app.config.settings import settings
+from pydantic import BaseModel
+from app.utils.response import success
+from app.schemas.chat_schema import ChatRequest
 
 router = APIRouter()
 
@@ -11,12 +14,13 @@ router = APIRouter()
 @router.get("/")
 async def root():
     return {"message": "欢迎使用 RAG 助手！请访问 /chat 开始对话。"}
-@router.get("/chat")
-async def chat(question: str):
+@router.post("/chat")
+async def chat(request: ChatRequest):
 
-    result = await chat_service.chat(question)
-
-    return result
+    result = await chat_service.chat(
+        request.question
+    )
+    return success(result)
 
 @router.get("/health")
 @log_exceptions  # 使用刚刚实现的异常日志装饰器
