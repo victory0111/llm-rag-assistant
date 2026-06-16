@@ -31,6 +31,11 @@ class Settings(BaseSettings):
 
     top_k: int
 
+    # jwt
+    jwt_secret_key: str
+    jwt_algorithm: str
+    jwt_expire_minutes: int
+
     class Config:
         env_file = ".env"
 

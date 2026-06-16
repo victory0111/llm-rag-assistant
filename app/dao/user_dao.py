@@ -21,12 +21,12 @@ class UserDAO:
             self,
             db: Session,
             username: str,
-            password: str
+            password_hash
     ):
 
         user = User(
             username=username,
-            password=password
+            password_hash=password_hash
         )
 
         db.add(user)

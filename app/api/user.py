@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from app.database.deps import get_db
 
 from app.schemas.user_schema import (
-    UserCreateRequest
+    UserCreateRequest,
+    UserLoginRequest
 )
 
 from app.service.user_service import (
@@ -34,4 +35,16 @@ async def register(
         request.password
     )
 
+    return success(result)
+
+@router.post("/login")
+async def login(
+        request: UserLoginRequest,
+        db: Session = Depends(get_db)
+):
+    result = user_service.login(
+        db,
+        request.username,
+        request.password
+    )
     return success(result)
