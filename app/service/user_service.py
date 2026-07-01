@@ -7,6 +7,7 @@ from app.schemas.user_schema import UserResponse,LoginResponse
 from app.exceptions.business_exception import (
     BusinessException
 )
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.exceptions.error_code import (
     USER_ALREADY_EXISTS,USER_NOT_FOUND,PASSWORD_ERROR
@@ -25,14 +26,14 @@ from app.core.security import (
 
 class UserService:
 
-    def register(
+    async def register(
             self,
-            db: Session,
+            db: AsyncSession,
             username: str,
             password: str
     ):
 
-        user = user_dao.get_by_username(
+        user = await user_dao.get_by_username(
             db,
             username
         )
@@ -46,7 +47,7 @@ class UserService:
         
         password_hash = hash_password(password)
 
-        user = user_dao.create_user(
+        user = await user_dao.create_user(
             db,
             username,
             password_hash
@@ -57,13 +58,13 @@ class UserService:
             username=user.username
         )
     
-    def login(
+    async def login(
             self,
-            db: Session,
+            db: AsyncSession,
             username,
             password
     ):
-        user = user_dao.get_by_username(
+        user = await user_dao.get_by_username(
             db,
             username
         )

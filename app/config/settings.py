@@ -36,6 +36,25 @@ class Settings(BaseSettings):
     jwt_algorithm: str
     jwt_expire_minutes: int
 
+    # llm
+    llm_provider: str
+
+    llm_model: str
+
+    llm_api_key: str
+
+    llm_base_url: str
+
+    llm_timeout: int
+
+    llm_max_retry: int
+
+    llm_temperature: float
+
+    llm_top_p: float
+
+    llm_max_tokens: int
+
     class Config:
         env_file = ".env"
 
@@ -44,6 +63,18 @@ class Settings(BaseSettings):
 
         return (
             f"mysql+pymysql://"
+            f"{self.mysql_user}:"
+            f"{self.mysql_password}@"
+            f"{self.mysql_host}:"
+            f"{self.mysql_port}/"
+            f"{self.mysql_db}"
+        )
+    
+    @property
+    def mysql_async_url(self):
+
+        return (
+            f"mysql+aiomysql://"
             f"{self.mysql_user}:"
             f"{self.mysql_password}@"
             f"{self.mysql_host}:"

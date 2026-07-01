@@ -1,25 +1,25 @@
 from sqlalchemy.orm import Session
-
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.user import User
 
 
 class UserDAO:
 
-    def get_by_username(
+    async def get_by_username(
             self,
-            db: Session,
+            db: AsyncSession,
             username: str
     ):
-
-        return (
-            db.query(User)
-            .filter(User.username == username)
-            .first()
+        stmt = select(User).where(
+        User.username == username
         )
+        result = await db.execute(stmt)
+        return result.scalar_one_or_none()
 
-    def create_user(
+    async def create_user(
             self,
-            db: Session,
+            db: AsyncSession,
             username: str,
             password_hash
     ):
@@ -29,11 +29,12 @@ class UserDAO:
             password_hash=password_hash
         )
 
+
         db.add(user)
 
-        db.commit()
+        await db.commit()
 
-        db.refresh(user)
+        await db.refresh(user)
 
         return user
 
