@@ -6,6 +6,31 @@ from app.llm.schemas.response import LLMResponse
 
 class BaseProvider(ABC):
 
+    @property
+    @abstractmethod
+    def provider_name(self) -> str:
+        """
+        Provider名称
+        """
+
+    @abstractmethod
+    async def initialize(self) -> None:
+        """
+        初始化Provider
+        """
+
+    @abstractmethod
+    async def shutdown(self) -> None:
+        """
+        释放资源
+        """
+
+    @abstractmethod
+    async def health_check(self) -> bool:
+        """
+        健康检查
+        """
+
     @abstractmethod
     async def chat(
         self,
@@ -14,7 +39,6 @@ class BaseProvider(ABC):
         """
         普通聊天
         """
-        raise NotImplementedError
 
     @abstractmethod
     async def stream_chat(
@@ -24,19 +48,3 @@ class BaseProvider(ABC):
         """
         流式聊天
         """
-        raise NotImplementedError
-
-    @abstractmethod
-    async def health_check(self) -> bool:
-        """
-        模型健康检查
-        """
-        raise NotImplementedError
-
-    @property
-    @abstractmethod
-    def provider_name(self) -> str:
-        """
-        Provider名称
-        """
-        raise NotImplementedError
