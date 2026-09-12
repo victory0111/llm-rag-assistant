@@ -1,20 +1,24 @@
 from dataclasses import dataclass
-from typing import Optional
+
+from app.llm.prompt.message import (
+    PromptConversation,
+)
 
 
-@dataclass
+@dataclass(
+    frozen=True,
+    slots=True,
+)
 class LLMRequest:
 
-    user_id: Optional[int]
+    conversation: PromptConversation
 
-    question: str
+    model: str | None = None
 
-    system_prompt: Optional[str]
+    temperature: float | None = None
 
-    temperature: float
+    max_tokens: int | None = None
 
-    top_p: float
-
-    max_tokens: int
+    top_p: float | None = None
 
     stream: bool = False

@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Any
-
+from app.llm.prompt.value_objects import PromptVersion
 from app.llm.prompt.base import BasePromptTemplate
 from app.llm.prompt.enums import PromptTask
 
@@ -18,7 +18,7 @@ class PromptTemplate(BasePromptTemplate):
 
     task: PromptTask
 
-    version: str
+    version: PromptVersion
 
     description: str
 
