@@ -1,12 +1,17 @@
 from app.llm.prompt.enums import PromptTask
 from app.llm.prompt.template import PromptTemplate
+from app.llm.prompt.value_objects import PromptVersion
 
 CHAT_TEMPLATE = PromptTemplate(
     name="chat_default",
 
     task=PromptTask.CHAT,
 
-    version="1.0.0",
+    version=PromptVersion(
+        1,
+        0,
+        0,
+    ),
 
     description="默认科研聊天",
 
@@ -20,5 +25,5 @@ CHAT_TEMPLATE = PromptTemplate(
 {{question}}
 """,
 
-    variables=["question"]
+    variables=("question",),
 )

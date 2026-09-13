@@ -7,6 +7,7 @@ from app.llm.prompt.renderer.exceptions import (
     TemplateVariableMissingException,
 )
 from app.llm.prompt.template import PromptTemplate
+from app.llm.prompt.value_objects import PromptVersion
 
 
 class Jinja2PromptRenderer(BasePromptRenderer):
@@ -28,9 +29,9 @@ class Jinja2PromptRenderer(BasePromptRenderer):
         # 核心优化：模板编译缓存
         # Key: (template.name, template.version)
         # Value: 编译后的 jinja2.Template 对象
-        self._compiled_templates: Dict[Tuple[str, str], Template] = {}
+        self._compiled_templates: Dict[Tuple[str, PromptVersion], Template] = {}
 
-    async def render(self, template: PromptTemplate, context: PromptBuildContext) -> str:
+    def render(self, template: PromptTemplate, context: PromptBuildContext) -> str:
         """
         渲染 Prompt 模板，优先从缓存获取编译后的模板。
         """

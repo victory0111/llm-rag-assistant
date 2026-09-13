@@ -4,6 +4,7 @@ import pytest
 from app.llm.prompt.renderer.jinja2_renderer import Jinja2PromptRenderer
 from app.llm.prompt.template import PromptTemplate
 from app.llm.prompt.value_objects import PromptVersion
+from app.llm.prompt.enums import PromptTask
 
 
 @pytest.fixture
@@ -20,6 +21,8 @@ def mock_template():
     提供一个基础的 PromptTemplate 用于测试。
     """
     return PromptTemplate(
+        task=PromptTask.CHAT,
+        description="...",
         name="test_template",
         version=PromptVersion(1,0,0),
         template="你好 {{question}}"

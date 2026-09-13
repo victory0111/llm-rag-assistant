@@ -87,7 +87,7 @@ async def test_build_success():
         spec=BasePromptRenderer
     )
 
-    renderer.render = AsyncMock(
+    renderer.render = Mock(
         return_value=(
             "你是一名科研助手。"
         )
@@ -132,7 +132,7 @@ async def test_build_success():
         == conversation
     )
 
-    renderer.render.assert_awaited_once_with(
+    renderer.render.assert_called_once_with(
         template,
         context,
     )

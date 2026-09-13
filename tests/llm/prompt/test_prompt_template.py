@@ -1,6 +1,7 @@
 from app.llm.prompt.enums import PromptTask
 from app.llm.prompt.template import PromptTemplate
 import pytest
+from app.llm.prompt.value_objects import PromptVersion
 
 
 def test_create_prompt_template():
@@ -11,13 +12,17 @@ def test_create_prompt_template():
 
         task=PromptTask.CHAT,
 
-        version="1.0.0",
+        version=PromptVersion(
+            1,
+            0,
+            0,
+        ),
 
         description="聊天",
 
         template="hello {{question}}",
 
-        variables=["question"]
+        variables=("question",),
 
     )
 
@@ -25,9 +30,13 @@ def test_create_prompt_template():
 
     assert template.task == PromptTask.CHAT
 
-    assert template.version == "1.0.0"
+    assert template.version == PromptVersion(
+        1,
+        0,
+        0,
+    )
 
-    assert template.variables == ["question"]
+    assert template.variables == ("question",)
 
 def test_prompt_template_is_immutable():
 

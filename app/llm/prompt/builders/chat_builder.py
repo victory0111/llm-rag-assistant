@@ -63,7 +63,7 @@ class ChatBuilder(BaseTaskBuilder):
         )
 
         rendered_prompt = (
-            await self._renderer.render(
+            self._renderer.render(
                 template,
                 build_context,
             )
