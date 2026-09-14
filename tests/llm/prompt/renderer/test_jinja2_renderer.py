@@ -7,8 +7,8 @@ from app.llm.prompt.value_objects import PromptVersion
 from app.llm.prompt.enums import PromptTask
 
 
-@pytest.mark.anyio
-async def test_render_single_variable(renderer, mock_template):
+
+def test_render_single_variable(renderer, mock_template):
     """
     Test1: 正常渲染单个变量。
     """
@@ -17,10 +17,7 @@ async def test_render_single_variable(renderer, mock_template):
     result = renderer.render(mock_template, context)
     
     assert result == "你好 Transformer是什么"
-
-
-@pytest.mark.anyio
-async def test_render_multiple_variables(renderer):
+def test_render_multiple_variables(renderer):
     """
     Test2: 正常渲染多个变量。
     """
@@ -41,8 +38,8 @@ async def test_render_multiple_variables(renderer):
     assert result == expected
 
 
-@pytest.mark.anyio
-async def test_render_missing_variable_raises_exception(renderer):
+
+def test_render_missing_variable_raises_exception(renderer):
     """
     Test3: 变量缺失时，应抛出企业级异常 TemplateVariableMissingException。
     """
@@ -57,11 +54,11 @@ async def test_render_missing_variable_raises_exception(renderer):
     context = SimpleNamespace(variables={})
     
     with pytest.raises(TemplateVariableMissingException):
-        await renderer.render(template, context)
+        renderer.render(template, context)
 
 
-@pytest.mark.anyio 
-async def test_render_empty_template(renderer):
+
+def test_render_empty_template(renderer):
     """
     Test4: 空模板应正常渲染，返回空字符串。
     """
@@ -78,8 +75,8 @@ async def test_render_empty_template(renderer):
     assert result == ""
 
 
-@pytest.mark.anyio
-async def test_metadata_not_participate_in_render(renderer):
+
+def test_metadata_not_participate_in_render(renderer):
     """
     Test5: Metadata 不参与渲染过程，不应影响结果。
     """
@@ -100,8 +97,8 @@ async def test_metadata_not_participate_in_render(renderer):
     assert result == "你好 RAG"
 
 
-@pytest.mark.anyio
-async def test_renderer_is_stateless(renderer):
+
+def test_renderer_is_stateless(renderer):
     """
     Test6: 验证渲染器是无状态的。
     """

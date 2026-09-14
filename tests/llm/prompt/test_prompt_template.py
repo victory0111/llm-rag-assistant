@@ -46,7 +46,11 @@ def test_prompt_template_is_immutable():
 
         task=PromptTask.CHAT,
 
-        version="1.0",
+        version=PromptVersion(
+            1,
+            0,
+            0,
+        ),
 
         description="",
 

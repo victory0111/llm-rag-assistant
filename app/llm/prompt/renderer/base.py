@@ -18,7 +18,7 @@ class BasePromptRenderer(ABC):
     """
 
     @abstractmethod
-    async def render(
+    def render(
 
         self,
 
