@@ -1,5 +1,4 @@
 
-import asyncio
 from enum import Enum, auto
 from typing import Dict
 
@@ -29,32 +28,25 @@ class RegistryState(Enum):
 class TaskBuilderRegistry:
     def __init__(self):
         self._builders: Dict[PromptTask, BaseTaskBuilder] = {}
-        self._lock = asyncio.Lock()
         self._state = RegistryState.CREATED
 
-    async def register(self, builder: BaseTaskBuilder) -> None:
+    def register(self, builder: BaseTaskBuilder) -> None:
+
         if self._state == RegistryState.FROZEN:
             raise RuntimeError("Cannot register builder: Registry is FROZEN.")
-        
-        async with self._lock:
-            if self._state == RegistryState.FROZEN:
-                raise RuntimeError("Cannot register builder: Registry is FROZEN.")
             
             # 核心修改：检查是否已存在，若存在则抛出 AlreadyRegistered
-            if builder.task in self._builders:
-                raise AlreadyRegistered(f"Builder for task {builder.task} is already registered.")
+        if builder.task in self._builders:
+            raise AlreadyRegistered(f"Builder for task {builder.task} is already registered.")
                 
-            self._builders[builder.task] = builder
-            self._state = RegistryState.REGISTERING
+        self._builders[builder.task] = builder
+        self._state = RegistryState.REGISTERING
 
-    async def unregister(self, task: PromptTask) -> None:
+    def unregister(self, task: PromptTask) -> None:
         if self._state == RegistryState.FROZEN:
             raise RuntimeError("Cannot unregister builder: Registry is FROZEN.")
-            
-        async with self._lock:
-            if self._state == RegistryState.FROZEN:
-                raise RuntimeError("Cannot unregister builder: Registry is FROZEN.")
-            self._builders.pop(task, None)
+        
+        self._builders.pop(task, None)
 
     def freeze(self) -> None:
         self._state = RegistryState.FROZEN

@@ -51,7 +51,7 @@ class ChatBuilder(BaseTaskBuilder):
     def task(self) -> PromptTask:
         return PromptTask.CHAT
 
-    async def build(
+    def build(
         self,
         template: PromptTemplate,
         build_context: PromptBuildContext,

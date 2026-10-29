@@ -9,7 +9,7 @@ CHAT_TEMPLATE = PromptTemplate(
 
     version=PromptVersion(
         1,
-        0,
+        1,
         0,
     ),
 
@@ -20,10 +20,7 @@ CHAT_TEMPLATE = PromptTemplate(
 
 请认真回答用户问题。
 
-问题：
-
-{{question}}
 """,
 
-    variables=("question",),
+    variables=(),
 )

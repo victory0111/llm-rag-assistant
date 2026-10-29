@@ -19,7 +19,7 @@ class BaseTaskBuilder(ABC):
         """
 
     @abstractmethod
-    async def build(
+    def build(
         self,
         template: PromptTemplate,
         build_context: PromptBuildContext,

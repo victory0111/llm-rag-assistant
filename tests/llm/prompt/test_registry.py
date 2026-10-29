@@ -37,24 +37,23 @@ def mock_rag_builder():
 
 # --- 测试用例 ---
 
-@pytest.mark.anyio
-async def test_register_success(registry, mock_chat_builder):
+
+def test_register_success(registry, mock_chat_builder):
     """
     Test1: 正常注册一个 Builder 应该成功。
     """
-    await registry.register(mock_chat_builder)
+    registry.register(mock_chat_builder)
     assert PromptTask.CHAT in registry.list()
 
-@pytest.mark.anyio
-async def test_register_duplicate_raises_already_registered(registry, mock_chat_builder):
+def test_register_duplicate_raises_already_registered(registry, mock_chat_builder):
     """
     Test2: 重复注册同一个 Task 的 Builder，应该抛出 AlreadyRegistered 异常。
     """
-    await registry.register(mock_chat_builder)
+    registry.register(mock_chat_builder)
     
     # 再次尝试注册同一个 builder
     with pytest.raises(AlreadyRegistered):
-        await registry.register(mock_chat_builder)
+        registry.register(mock_chat_builder)
 
 def test_get_success(registry, mock_chat_builder):
     """

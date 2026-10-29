@@ -80,8 +80,8 @@ def test_chat_builder_task():
         == PromptTask.CHAT
     )
 
-@pytest.mark.anyio
-async def test_build_success():
+
+def test_build_success():
 
     renderer = Mock(
         spec=BasePromptRenderer
@@ -122,7 +122,7 @@ async def test_build_success():
     template = create_chat_template()
     context = create_chat_context()
 
-    request = await builder.build(
+    request = builder.build(
         template,
         context,
     )
@@ -144,8 +144,7 @@ async def test_build_success():
 
 
 
-@pytest.mark.anyio
-async def test_reject_wrong_template_task():
+def test_reject_wrong_template_task():
 
     renderer = Mock(
         spec=BasePromptRenderer
@@ -176,13 +175,12 @@ async def test_reject_wrong_template_task():
     context = create_chat_context()
 
     with pytest.raises(ValueError):
-        await builder.build(
+        builder.build(
             template,
             context,
         )
 
-@pytest.mark.anyio
-async def test_reject_wrong_context_task():
+def test_reject_wrong_context_task():
 
     renderer = Mock(
         spec=BasePromptRenderer
@@ -209,7 +207,7 @@ async def test_reject_wrong_context_task():
     )
 
     with pytest.raises(ValueError):
-        await builder.build(
+        builder.build(
             template,
             context,
         )
