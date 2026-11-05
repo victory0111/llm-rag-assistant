@@ -2,14 +2,14 @@ from abc import ABC, abstractmethod
 from app.llm.providers.base import BaseProvider
 import asyncio
 
-from app.llm.client import BaseClientManager
+from app.llm.context import ProviderContext
 from app.llm.exceptions import ProviderNotFoundException
-from app.llm.providers.base import BaseProvider
+
 
 class BaseProviderFactory(ABC):
 
     @abstractmethod
-    async def register(
+    def register(
         self,
         provider_name: str,
         provider_cls: type[BaseProvider]
@@ -28,7 +28,7 @@ class BaseProviderFactory(ABC):
         """
 
     @abstractmethod
-    async def list_providers(self) -> list[str]:
+    def list_providers(self) -> list[str]:
         """
         获取已注册Provider
         """
@@ -44,10 +44,10 @@ class ProviderFactory(BaseProviderFactory):
 
     def __init__(
         self,
-        client_manager: BaseClientManager
+        context: ProviderContext
     ):
 
-        self._client_manager = client_manager
+        self._context = context
 
         self._registry: dict[
             str,
@@ -61,7 +61,7 @@ class ProviderFactory(BaseProviderFactory):
 
         self._lock = asyncio.Lock()
 
-    async def register(
+    def register(
 
         self,
 
@@ -107,7 +107,7 @@ class ProviderFactory(BaseProviderFactory):
 
             provider = provider_cls(
 
-                self._client_manager
+                context=self._context
 
             )
 
@@ -117,7 +117,7 @@ class ProviderFactory(BaseProviderFactory):
 
             return provider
         
-    async def list_providers(
+    def list_providers(
 
         self
 
